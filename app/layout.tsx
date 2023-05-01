@@ -14,7 +14,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ClerkProvider>
-        <body className="min-h-screen">{children}</body>
+        <body className="min-h-screen flex flex-col items-center p-4 w-full">
+          {/* <Sidebar /> */}
+          {children}
+        </body>
       </ClerkProvider>
     </html>
   );
