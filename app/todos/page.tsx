@@ -1,19 +1,22 @@
-import { PrismaClient } from '@prisma/client';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Suspense } from 'react';
 
-const prisma = new PrismaClient();
+async function getTodos() {
+  const data = await fetch('http://localhost:3000/api/todos');
+  const todos = await data.json();
+  return todos;
+}
 
 export default async function Page() {
-  const todos = await prisma.todo.findMany({});
+  const todos = await getTodos();
+  console.log({ todos });
 
   return (
-    <ul>
-      {todos.map((todo) => (
-        <li key={todo.id} className="flex gap-2 items-center">
-          <Checkbox />
-          <p>{todo.title}</p>
-        </li>
-      ))}
-    </ul>
+    <Suspense>
+      <h1>{1}</h1>
+    </Suspense>
   );
+}
+
+{
+  /* // <ul>{todos && todos.map((todo) => <Todo key={todo.id} {...todo} />)}</ul> */
 }
