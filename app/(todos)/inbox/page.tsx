@@ -16,11 +16,12 @@ export default async function Page() {
   return (
     <div className="flex flex-col gap-10">
       <h1 className="text-xl pt-4 font-semibold">Inbox</h1>
-      <ul>
+      {todos.length > 0 ? <ul>
         {todos.map((todo) => (
           <TodoItem key={todo.id} {...todo}/>
         ))}
-      </ul>
+      </ul> : 
+      <p>You have no active todos.</p>}
     </div>
   );
 }

@@ -15,11 +15,13 @@ export default async function Page() {
   return (
     <div className="flex flex-col gap-10">
       <h1 className="text-xl pt-4 font-semibold">Logbook</h1>
+      {doneTodos.length > 0 ? 
       <ul>
         {doneTodos.map((todo) => (
           <TodoItem key={todo.id} {...todo} />
         ))}
-      </ul>
+      </ul> : 
+      <p>You have no done todos</p>}
     </div>
   );
 }
