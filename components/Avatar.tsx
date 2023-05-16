@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { SignedIn, UserButton, useUser } from '@clerk/nextjs';
-import { Skeleton } from './ui/skeleton';
+import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
+import { Skeleton } from "./ui/skeleton";
 
 export const Avatar = () => {
   const { isLoaded } = useUser();
@@ -11,7 +11,7 @@ export const Avatar = () => {
       {isLoaded ? (
         <UserButton />
       ) : (
-        <Skeleton className="w-9 h-9 rounded-full" />
+        <Skeleton className="h-9 w-9 rounded-full" />
       )}
     </SignedIn>
   );

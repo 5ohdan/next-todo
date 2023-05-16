@@ -1,20 +1,20 @@
-import { Sidebar } from '@/components/Sidebar';
-import './globals.css';
-import { ClerkProvider, SignedIn, UserButton } from '@clerk/nextjs/app-beta';
+import { Sidebar } from "@/components/Sidebar";
+import "./globals.css";
+import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs/app-beta";
 
-import { IBM_Plex_Sans } from 'next/font/google';
-import { AddTodo } from '@/components/AddTodo';
-import { Avatar } from '@/components/Avatar';
+import { IBM_Plex_Sans } from "next/font/google";
+import { AddTodo } from "@/components/AddTodo";
+import { Avatar } from "@/components/Avatar";
 
 const ibm_plex = IBM_Plex_Sans({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-ibm-plex-sans',
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-ibm-plex-sans",
 });
 
 export const metadata = {
-  title: 'next-todo',
-  description: 'a todo application build with next13',
+  title: "next-todo",
+  description: "a todo application build with next13",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={ibm_plex.className}>
         <body className="min-h-screen min-w-full">
-          <div className="min-h-screen flex justify-between p-8">
+          <div className="flex min-h-screen justify-between p-8">
             <div className="flex gap-24">
               <Sidebar />
               {children}
