@@ -4,7 +4,33 @@ import { getAuth } from "@clerk/nextjs/dist/server-helpers.server";
 
 const prisma = new PrismaClient();
 
-export async function PATCH(req: NextRequest) {}
+interface PatchBody {
+  done: boolean;
+  id: number;
+}
+
+export async function PATCH(req: NextRequest) {
+  const { userId } = getAuth(req);
+  const body = (await req.json()) as Promise<PatchBody>;
+  console.log(body);
+
+  if (userId) {
+    await prisma.todo.update({
+      where: {
+        id: (await body).id,
+      },
+      data: {
+        done: (await body).done,
+      },
+    });
+    return new NextResponse("done", {
+      status: 200,
+    });
+  }
+  return new NextResponse("something went wrong", {
+    status: 500,
+  });
+}
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const { userId } = getAuth(req);

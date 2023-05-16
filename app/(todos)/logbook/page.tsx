@@ -22,7 +22,7 @@ export default async function Page() {
           ))}
         </ul>
       ) : (
-        <p>You have no done todos</p>
+        <p>You have no completed todos</p>
       )}
     </div>
   );
