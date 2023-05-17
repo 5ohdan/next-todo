@@ -30,7 +30,7 @@ export const AddTodo = () => {
             <Input
               type="text"
               id="todo"
-              placeholder="Input task to do"
+              placeholder="Input a task to do"
               value={todoValue}
               onChange={(event) => setTodoValue(event.target.value)}
             />
