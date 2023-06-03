@@ -1,6 +1,6 @@
 import { Sidebar } from "@/components/Sidebar";
 import "./globals.css";
-import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs/app-beta";
+import { ClerkProvider } from "@clerk/nextjs/app-beta";
 
 import { IBM_Plex_Sans } from "next/font/google";
 import { AddTodo } from "@/components/AddTodo";
@@ -27,7 +27,7 @@ export default function RootLayout({
       <html lang="en" className={ibm_plex.className}>
         <body className="min-h-screen min-w-full">
           <div className="flex min-h-screen justify-between p-8">
-            <div className="flex gap-24">
+            <div className="flex flex-1 gap-24">
               <Sidebar />
               {children}
             </div>

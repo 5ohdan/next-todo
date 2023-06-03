@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/helpers";
-import { TodoItem } from "../TodoItem";
+import { TodoItem } from "@/components/TodoItem";
 import { auth } from "@clerk/nextjs";
 
 export default async function Page() {
@@ -13,7 +13,7 @@ export default async function Page() {
   });
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-1 flex-col gap-10">
       <h1 className="pt-4 text-xl font-semibold">Logbook</h1>
       {doneTodos.length > 0 ? (
         <ul>

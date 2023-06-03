@@ -16,6 +16,7 @@ model Todo {
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @updatedAt @map(name: "updated_at")
   authorId    String
+  active      Boolean  @default(true)
 
   @@index([authorId])
 }
