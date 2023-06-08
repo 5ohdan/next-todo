@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/helpers";
-import { getAuth } from "@clerk/nextjs/dist/types/server/getAuth";
+import { auth } from "@clerk/nextjs";
 
 interface PatchBody {
   active?: boolean;
@@ -9,29 +9,53 @@ interface PatchBody {
 }
 
 export async function PATCH(req: NextRequest) {
-  const { userId } = getAuth(req);
+  const { userId } = auth();
   const body = (await req.json()) as PatchBody;
 
+  if (!userId)
+    return NextResponse.json("Unauthorized", {
+      status: 401,
+    });
+
   if (userId) {
-    await prisma.todo.update({
-      where: {
-        id: body.id,
-      },
-      data: {
-        done: body.done,
-      },
-    });
-    return new NextResponse("done", {
-      status: 200,
-    });
+    if (body.done !== undefined) {
+      await prisma.todo.update({
+        where: {
+          id: body.id,
+        },
+        data: {
+          done: body.done,
+        },
+      });
+      return NextResponse.json("done", {
+        status: 200,
+      });
+    }
+    if (body.active !== undefined) {
+      await prisma.todo.update({
+        where: {
+          id: body.id,
+        },
+        data: {
+          active: body.active,
+        },
+      });
+      return NextResponse.json("done", {
+        status: 200,
+      });
+    }
   }
-  return new NextResponse("something went wrong", {
+  return NextResponse.json("something went wrong", {
     status: 500,
   });
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const { userId } = getAuth(req);
+  const { userId } = auth();
+  if (!userId)
+    return NextResponse.json("Unauthorized", {
+      status: 401,
+    });
   if (userId) {
     await prisma.todo.create({
       data: {
@@ -40,30 +64,35 @@ export async function POST(req: NextRequest, res: NextResponse) {
         done: false,
       },
     });
-    return new NextResponse("done", {
+    return NextResponse.json("done", {
       status: 200,
     });
   }
-  return new NextResponse("something went wrong!", {
+  return NextResponse.json("something went wrong!", {
     status: 500,
   });
 }
 
 export async function DELETE(req: NextRequest) {
-  const { userId } = getAuth(req);
+  const { userId } = auth();
   const body = await req.json();
-  console.log(body);
+
+  if (!userId)
+    return NextResponse.json("Unauthorized", {
+      status: 401,
+    });
+
   if (userId) {
     const deletedTodo = await prisma.todo.delete({
       where: {
         id: (await body).id as number,
       },
     });
-    return new NextResponse(`deleted todo: ${deletedTodo.title}`, {
+    return NextResponse.json(`deleted todo: ${deletedTodo.title}`, {
       status: 200,
     });
   }
-  return new NextResponse("something went wrong", {
+  return NextResponse.json("something went wrong", {
     status: 500,
   });
 }

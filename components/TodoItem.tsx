@@ -34,8 +34,9 @@ export const TodoItem = ({ ...todo }: Todo) => {
         onClick={() => {
           console.log(id);
           fetch("/api/todos", {
-            method: "DELETE",
+            method: "PATCH",
             body: JSON.stringify({
+              active: false,
               id,
             }),
           });

@@ -7,6 +7,7 @@ export default async function Page() {
 
   const todos = await prisma.todo.findMany({
     where: {
+      active: true,
       done: false,
       authorId: userId!,
     },
