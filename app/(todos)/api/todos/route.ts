@@ -1,11 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/helpers";
+import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 
 interface PatchBody {
   active?: boolean;
   done?: boolean;
   id: number;
+}
+
+export async function GET() {
+  const { userId } = auth();
+  const todos = await prisma.todo.findMany({
+    where: {
+      authorId: userId!,
+    },
+  });
+  return NextResponse.json(todos, { status: 200 });
 }
 
 export async function PATCH(req: NextRequest) {
