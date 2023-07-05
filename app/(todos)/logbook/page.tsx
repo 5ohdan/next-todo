@@ -1,30 +1,5 @@
-import { prisma } from "@/lib/helpers";
-import { TodoItem } from "@/components/TodoItem";
-import { auth } from "@clerk/nextjs";
+import { TodoList } from "@/components/TodoList";
 
 export default async function Page() {
-  const { userId } = auth();
-
-  const doneTodos = await prisma.todo.findMany({
-    where: {
-      active: true,
-      done: true,
-      authorId: userId!,
-    },
-  });
-
-  return (
-    <div className="flex flex-1 flex-col gap-10">
-      <h1 className="pt-4 text-xl font-semibold">Logbook</h1>
-      {doneTodos.length > 0 ? (
-        <ul>
-          {doneTodos.map((todo) => (
-            <TodoItem key={todo.id} {...todo} />
-          ))}
-        </ul>
-      ) : (
-        <p>You have no completed todos</p>
-      )}
-    </div>
-  );
+  return <TodoList title={"Logbook"} completed={true} />;
 }
