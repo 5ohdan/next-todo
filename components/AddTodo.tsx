@@ -5,8 +5,13 @@ import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { FormEvent, useState } from "react";
+import { useToast } from "./ui/use-toast";
+import { Toaster } from "./ui/toaster";
+import { useStore } from "@/lib/store";
 
 export const AddTodo = () => {
+  const setTodos = useStore((state) => state.setTodos);
+  const { toast } = useToast();
   const [todoValue, setTodoValue] = useState("");
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
@@ -14,8 +19,9 @@ export const AddTodo = () => {
     fetch("/api/todos", {
       method: "POST",
       body: JSON.stringify(todoValue),
-    });
+    }).then(() => toast({ title: `Added todo: ${todoValue}` }));
     setTodoValue("");
+    setTodos();
   };
 
   return (
@@ -37,6 +43,7 @@ export const AddTodo = () => {
           </form>
         </DialogContent>
       </Dialog>
+      <Toaster />
     </div>
   );
 };
