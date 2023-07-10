@@ -5,11 +5,12 @@ import { auth } from "@clerk/nextjs";
 interface PatchProps {
   id: number;
   title: string;
+  description?: string;
 }
 
 export async function PATCH(req: NextRequest) {
   const { userId } = auth();
-  const { id, title } = (await req.json()) as PatchProps;
+  const { id, title, description } = (await req.json()) as PatchProps;
 
   if (!userId)
     return NextResponse.json("Unauthorized", {

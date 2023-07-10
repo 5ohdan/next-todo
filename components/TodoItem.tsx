@@ -1,21 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 import type { Todo } from "@prisma/client";
 import { useStore } from "@/lib/store";
-import { Input } from "./ui/input";
+import { ToEditTodo } from "./ToEditTodo";
 
 export const TodoItem = ({ ...todo }: Todo) => {
-  const { done, id } = todo;
-  const [editValue, setEditValue] = useState(todo.title);
+  const { title, done, id } = todo;
   const [isChecked, setIsChecked] = useState(done);
-  const [isEditing, setIsEditing] = useState<Boolean>(false);
 
   const setTodos = useStore((state) => state.setTodos);
 
@@ -27,7 +24,7 @@ export const TodoItem = ({ ...todo }: Todo) => {
         id,
       }),
     })
-      .then((result) => {
+      .then(() => {
         setTodos();
       })
       .catch((error) => {
@@ -61,12 +58,7 @@ export const TodoItem = ({ ...todo }: Todo) => {
             setIsChecked((prev) => !prev);
           }}
         />
-        <p
-          className={cn({ "line-through": done })}
-          onClick={() => setIsEditing(true)}
-        >
-          {todo.title}
-        </p>
+        <ToEditTodo id={id} title={title} done={done} />
       </div>
       <Button variant="ghost" onClick={onDelete}>
         <Trash width={18} height={18} />
@@ -74,44 +66,5 @@ export const TodoItem = ({ ...todo }: Todo) => {
     </li>
   );
 
-  const EditingTodoItem = (
-    <li className="flex justify-between py-1">
-      <Input value={editValue} onChange={(e) => setEditValue(e.target.value)} />
-      <Button
-        onClick={() => {
-          if (editValue.length === 0) return;
-          if (editValue === todo.title) {
-            setIsEditing(false);
-            return;
-          }
-          fetch("inbox/todo/api", {
-            method: "PATCH",
-            body: JSON.stringify({ id: todo.id, title: editValue }),
-          })
-            .then(() => {
-              setIsEditing(false);
-              setTodos();
-            })
-            .catch((error) => {
-              console.log(error);
-              setIsEditing(false);
-              setEditValue(todo.title);
-              throw new Error(error);
-            });
-        }}
-      >
-        Save
-      </Button>
-      <Button
-        onClick={() => {
-          setIsEditing(false);
-          setEditValue(todo.title);
-        }}
-      >
-        Cancel
-      </Button>
-    </li>
-  );
-
-  return !isEditing ? IdleTodoItem : EditingTodoItem;
+  return IdleTodoItem;
 };

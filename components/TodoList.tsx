@@ -20,7 +20,7 @@ export const TodoList = ({
   }, []);
 
   const filteredTodos = useMemo(() => {
-    return todos.filter((todo) => todo.done === completed);
+    return todos.filter((todo) => todo.done === completed && todo.active);
   }, [todos]);
 
   return (
