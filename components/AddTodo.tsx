@@ -31,9 +31,9 @@ export const AddTodo = () => {
   };
 
   return (
-    <div>
+    <div className="sticky bottom-7">
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-500 text-4xl text-white">
+        <DialogTrigger className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-500 text-4xl text-white hover:bg-blue-600 hover:outline-blue-700">
           <Plus width={24} height={24} />
         </DialogTrigger>
         <DialogContent className="p-4">

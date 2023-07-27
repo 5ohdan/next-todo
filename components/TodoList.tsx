@@ -5,13 +5,7 @@ import { TodoItem } from "./TodoItem";
 import { type Todo } from "@prisma/client";
 import { useStore } from "@/lib/store";
 
-export const TodoList = ({
-  title,
-  completed,
-}: {
-  title: string;
-  completed: boolean;
-}) => {
+export const TodoList = ({ completed }: { completed: boolean }) => {
   const todos = useStore((state) => state.todos);
   const setTodos = useStore((state) => state.setTodos);
 
@@ -24,8 +18,7 @@ export const TodoList = ({
   }, [todos]);
 
   return (
-    <div className="flex flex-1 flex-col gap-10">
-      <h1 className="pt-4 text-xl font-semibold">{title}</h1>
+    <>
       {filteredTodos.length > 0 ? (
         <ul>
           {filteredTodos.map((todo: Todo) => (
@@ -35,6 +28,6 @@ export const TodoList = ({
       ) : (
         <p>You have no active todos.</p>
       )}
-    </div>
+    </>
   );
 };

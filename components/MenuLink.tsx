@@ -3,7 +3,7 @@ import Link from "next/link";
 
 interface MenuLinkProps {
   href: string;
-  disabled: boolean;
+  disabled?: boolean;
   icon: string;
   title: string;
   className?: string;
@@ -18,11 +18,9 @@ export const MenuLink = ({
 }: MenuLinkProps) => {
   {
     return !disabled ? (
-      <Link href={href} className={cn("max-w-max", className)}>
+      <Link href={href} className={cn("min-w-full", className)}>
         <button
-          className={cn(
-            "flex w-full min-w-full max-w-max gap-3 rounded p-2 hover:bg-slate-200"
-          )}
+          className={cn("flex w-full gap-3 rounded p-2 hover:bg-slate-200")}
         >
           <span>{icon}</span>
           <span>{title}</span>

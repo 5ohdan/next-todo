@@ -1,6 +1,7 @@
 import { Sidebar } from "@/components/Sidebar";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs/app-beta";
+import Providers from "@/lib/provider";
 
 import { IBM_Plex_Sans } from "next/font/google";
 import { AddTodo } from "@/components/AddTodo";
@@ -26,16 +27,18 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={ibm_plex.className}>
         <body className="min-h-screen min-w-full">
-          <div className="flex min-h-screen justify-between p-8">
-            <div className="flex flex-1 gap-24">
-              <Sidebar />
-              {children}
+          <Providers>
+            <div className="flex min-h-screen flex-initial justify-between gap-24 p-8">
+              <div className="flex flex-1 gap-24">
+                <Sidebar />
+                {children}
+              </div>
+              <div className="relative flex flex-col justify-between">
+                <Avatar />
+                <AddTodo />
+              </div>
             </div>
-            <div className="flex flex-col justify-between">
-              <Avatar />
-              <AddTodo />
-            </div>
-          </div>
+          </Providers>
         </body>
       </html>
     </ClerkProvider>

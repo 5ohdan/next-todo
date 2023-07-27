@@ -49,7 +49,7 @@ export const TodoItem = ({ ...todo }: Todo) => {
   };
 
   const IdleTodoItem = (
-    <li className="flex justify-between py-1">
+    <li className="flex justify-between pb-1">
       <div className="flex items-center gap-2">
         <Checkbox
           checked={isChecked}
@@ -61,7 +61,7 @@ export const TodoItem = ({ ...todo }: Todo) => {
         <ToEditTodo id={id} title={title} done={done} />
       </div>
       <Button variant="ghost" onClick={onDelete}>
-        <Trash width={18} height={18} />
+        <Trash width={15} height={15} />
       </Button>
     </li>
   );

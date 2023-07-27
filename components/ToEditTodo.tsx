@@ -7,6 +7,7 @@ import { Input } from "./ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/lib/store";
+import Link from "next/link";
 
 export const ToEditTodo = ({
   id,
@@ -57,7 +58,17 @@ export const ToEditTodo = ({
         >
           Save
         </Button>
-        <DialogClose>Close</DialogClose>
+        <Button>
+          <Link href={`inbox/todo/${id}`}>Open full form</Link>
+        </Button>
+        <DialogClose
+          onClick={() => {
+            setIsOpen(false);
+            setEditValue(title);
+          }}
+        >
+          Close
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );
