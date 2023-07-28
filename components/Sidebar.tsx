@@ -8,7 +8,7 @@ export const Sidebar = () => {
         <h1 className="text-4xl font-bold">ToDay</h1>
       </Link>
       <div className="flex flex-col">
-        <MenuLink href={"/"} icon={"📥"} title="Inbox" disabled={false} />
+        <MenuLink href={"/"} icon={"📥"} title="Inbox" />
         <MenuLink href={"/"} icon={"⭐️"} title="Today" disabled={true} />
         <MenuLink href={"/"} icon={"🗓️"} title="Upcoming" disabled={true} />
         <MenuLink href={"/"} icon={"📦"} title="Anytime" disabled={true} />
@@ -16,7 +16,6 @@ export const Sidebar = () => {
           href={"/logbook"}
           icon={"📔"}
           title="Logbook"
-          disabled={false}
           className="pt-4"
         />
       </div>
