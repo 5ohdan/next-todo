@@ -28,7 +28,7 @@ export const TodoItem = ({ ...todo }: Todo) => {
         setTodos();
       })
       .catch((error) => {
-        console.log(error);
+        console.log({ error })
         throw new Error("something went wrong with setting todo done");
       });
   };

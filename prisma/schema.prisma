@@ -9,14 +9,17 @@ datasource db {
 }
 
 model Todo {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description Json?
-  done        Boolean  @default(false)
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @updatedAt @map(name: "updated_at")
-  authorId    String
-  active      Boolean  @default(true)
+  id           Int       @id @default(autoincrement())
+  title        String    @db.VarChar(255)
+  description  Json?
+  done         Boolean   @default(false)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  authorId     String
+  active       Boolean   @default(true)
+  dueDate      DateTime? @map("due_date") @db.Date
+  deadlineDate DateTime? @map("deadline_date") @db.Date
+  inProgress   Boolean   @default(false)
 
   @@index([authorId])
 }
