@@ -16,7 +16,7 @@ const DatePicker = ({
   setDate: (day: Date | null) => void
 }) => {
   // naming just to avoid same name from props
-  const [drafrtDate, setDraftDate] = useState<Date | undefined>()
+  const [draftDate, setDraftDate] = useState<Date | undefined>()
 
   return (
     <Popover>
@@ -25,26 +25,27 @@ const DatePicker = ({
           variant={"outline"}
           className={cn(
             "w-full justify-between text-left font-normal",
-            !drafrtDate && "text-muted-foreground",
+            !draftDate && "text-muted-foreground",
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {drafrtDate ? format(drafrtDate, "PPP") : <span>{placeholder}</span>}
+          {draftDate ? format(draftDate, "PPP") : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent>
         <Calendar
           mode="single"
+          //can't create todo with date before today
           fromDate={new Date()}
-          selected={drafrtDate}
+          selected={draftDate}
           onSelect={(day) => {
-            if (typeof day === "object") {
+            if (day) {
               setDraftDate(day)
               setDate(day)
-            } else if (typeof day === "undefined") {
-              setDraftDate(day)
-              setDate(null)
+              return
             }
+            setDraftDate(undefined)
+            setDate(null)
           }}
         />
       </PopoverContent>
