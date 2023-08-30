@@ -6,7 +6,7 @@ export default async function Page() {
     <div className="flex flex-1 flex-col gap-6">
       <h1 className="pt-4 text-xl font-semibold">Inbox</h1>
       <Suspense fallback={<span>Loading...</span>}>
-        <TodoList completed={false} />
+        <TodoList completed={false} date={null} />
       </Suspense>
     </div>
   );
