@@ -1,11 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
+import { NextRequest, NextResponse } from "next/server";
 
-interface PatchBody {
+export interface PatchBody {
   active?: boolean;
   done?: boolean;
   id: number;
+}
+
+export interface PostBody {
+  title: string;
+  dueDate: Date | null;
+  deadlineDate: Date | null;
 }
 
 export async function GET() {
@@ -60,8 +66,9 @@ export async function PATCH(req: NextRequest) {
   });
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const { userId } = auth();
+  const { title, dueDate, deadlineDate } = (await req.json()) as PostBody;
   if (!userId)
     return NextResponse.json("Unauthorized", {
       status: 401,
@@ -69,7 +76,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
   if (userId) {
     await prisma.todo.create({
       data: {
-        title: await req.json(),
+        title: title,
+        dueDate: dueDate,
+        deadlineDate: deadlineDate,
         authorId: userId,
         done: false,
       },

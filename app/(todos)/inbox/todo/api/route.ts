@@ -10,9 +10,8 @@ interface PatchProps {
 
 export async function PATCH(req: NextRequest) {
   const { userId } = auth();
-  const body = await req.json()
-  console.log(body)
-  const { id, title, description } = body
+  const body = await req.json();
+  const { id, title, description } = body as PatchProps;
 
   if (!userId)
     return NextResponse.json("Unauthorized", {

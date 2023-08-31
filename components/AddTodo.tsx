@@ -1,34 +1,48 @@
-"use client";
+"use client"
 
-import { Plus } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { FormEvent, useState } from "react";
-import { useToast } from "./ui/use-toast";
-import { Toaster } from "./ui/toaster";
-import { useStore } from "@/lib/store";
+import { Plus } from "lucide-react"
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
+import { Input } from "./ui/input"
+import { Label } from "./ui/label"
+import { FormEvent, useState } from "react"
+import { useToast } from "./ui/use-toast"
+import { Toaster } from "./ui/toaster"
+import { useStore } from "@/lib/store"
+import { DatePickerMemoized } from "./DatePicker"
+import { Button } from "./ui/button"
+import { type Todo } from "@prisma/client"
+import { compareAsc } from "date-fns"
 
 export const AddTodo = () => {
-  const setTodos = useStore((state) => state.setTodos);
-  const { toast } = useToast();
+  const setTodos = useStore((state) => state.setTodos)
+  const addTodo = useStore((state) => state.addTodo)
 
-  const [todoValue, setTodoValue] = useState("");
-  const [open, setOpen] = useState(false);
+  const { toast } = useToast()
+  const [open, setOpen] = useState(false)
+
+  const [titleValue, setTitleValue] = useState("")
+  const [dueDate, setDueDate] = useState<Todo["dueDate"]>(null)
+  const [deadlineDate, setDeadlineDate] = useState<Todo["deadlineDate"]>(null)
 
   const submitHandler = (event: FormEvent) => {
-    event.preventDefault();
-    if (todoValue.trim().length === 0) return;
-    fetch("/api/todos", {
-      method: "POST",
-      body: JSON.stringify(todoValue),
-    }).then(() => {
-      toast({ title: `Added todo: ${todoValue}` });
-    });
-    setOpen(false);
-    setTodoValue("");
-    setTodos();
-  };
+    event.preventDefault()
+    if (titleValue.trim().length === 0) {
+      toast({ title: "Title can not be empty" })
+      return
+    }
+    if (dueDate && deadlineDate && compareAsc(dueDate, deadlineDate)) {
+      toast({ title: "Deadline can not be after due date" })
+      return
+    }
+    addTodo(titleValue.trim(), dueDate, deadlineDate).then(() => {
+      toast({ title: `Added todo: ${titleValue}` })
+    })
+    setOpen(false)
+    setTitleValue("")
+    setDueDate(null)
+    setDeadlineDate(null)
+    setTodos()
+  }
 
   return (
     <div className="sticky bottom-7">
@@ -37,19 +51,26 @@ export const AddTodo = () => {
           <Plus width={24} height={24} />
         </DialogTrigger>
         <DialogContent className="p-4">
-          <form onSubmit={submitHandler}>
-            <Label htmlFor="todo">Title</Label>
+          <form onSubmit={submitHandler} className="flex flex-col gap-3">
+            <h2 className="text-xl font-bold">Add todo</h2>
+            <Label htmlFor="title">Title</Label>
             <Input
               type="text"
-              id="todo"
+              id="title"
               placeholder="Input a task to do"
-              value={todoValue}
-              onChange={(event) => setTodoValue(event.target.value)}
+              value={titleValue}
+              onChange={(event) => setTitleValue(event.target.value)}
             />
+            <DatePickerMemoized placeholder="Due date" setDate={setDueDate} />
+            <DatePickerMemoized
+              placeholder="Deadline"
+              setDate={setDeadlineDate}
+            />
+            <Button>Create todo</Button>
           </form>
         </DialogContent>
       </Dialog>
       <Toaster />
     </div>
-  );
-};
+  )
+}
